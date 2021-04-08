@@ -8,7 +8,6 @@ import java.io.FileReader;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Database {
@@ -26,36 +25,28 @@ public class Database {
             //Skip first line of CSV
             br.readLine();
             
+            //Read through each line
             while ((line = br.readLine()) != null) {
                 String COMMA_DELIMITER = ",";
                 String[] values = line.split(COMMA_DELIMITER);
-                records.add(Arrays.asList(values));
-            }
-            
-            for (int i = 0; i < records.size(); i++){
-                List<String> entry = records.get(i);
-
-                //Parse out the CSV entries
-                DateTimeFormatter format = DateTimeFormatter.ofPattern("H:mm");
                 
-                int id = Integer.parseInt(entry.get(0));
-                
-                if (id == targetId){
+                //If the ID of the row is our target ID
+                if (Integer.parseInt(values[0]) == targetId){
+                    //Parse out the CSV entry
+                    DateTimeFormatter format = DateTimeFormatter.ofPattern("H:mm");
+                    int id;
                     LocalTime startTime, endTime;
                     
-                    startTime = LocalTime.parse(entry.get(1), format);
-                    //startTime = localTime.toSecondOfDay() * 1000;
-                    
-                    endTime = LocalTime.parse(entry.get(2), format);
-                    //endTime = localTime.toSecondOfDay() * 1000;
-                    
+                    id = Integer.parseInt(values[0]);
+                    startTime = LocalTime.parse(values[1], format);
+                    endTime = LocalTime.parse(values[2], format);
+
                     Shift shift = new Shift(id, startTime, endTime);
                     
                     return shift;
                 }
-                
             }
-            
+
         } catch(Exception e) {
             e.printStackTrace();
         }
