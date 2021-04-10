@@ -60,4 +60,10 @@ public class ScheduleLogic {
 
         return potentialEmployees;
     }
+    
+    public void convertScheduleToCSV(HashMap<Database.DAYOFWEEK, ArrayList<Employee>> h){
+        //Take the information from the hashmap and convert it to CSV format
+        //Then write it to a new excel file
+        //TO-DO
+    }
 }
