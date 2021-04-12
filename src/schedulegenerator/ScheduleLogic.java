@@ -3,6 +3,8 @@
 
 package schedulegenerator;
 
+import java.io.File;
+import java.io.PrintWriter;
 import java.lang.reflect.Array;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -61,9 +63,26 @@ public class ScheduleLogic {
         return potentialEmployees;
     }
     
-    public void convertScheduleToCSV(HashMap<Database.DAYOFWEEK, ArrayList<Employee>> h){
+    public void convertScheduleToCSV(HashMap<Database.DAYOFWEEK, ArrayList<Employee>> schedule, String fileName){
         //Take the information from the hashmap and convert it to CSV format
-        //Then write it to a new excel file
-        //TO-DO
+
+        File csvOutputFile = new File(fileName);
+        try (PrintWriter writer = new PrintWriter(csvOutputFile)){
+            writer.println(" ,Shift 1,Shift 2,Shift 3,Shift 4,Shift 5");
+            
+            for (Database.DAYOFWEEK days : Database.DAYOFWEEK.values()) {
+                String s = days.toString();
+                
+                for (Employee e : schedule.get(days)){
+                    s += "," + e.getName();
+                }
+                
+                writer.println(s);
+            }
+            
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
     }
 }
